@@ -30,8 +30,16 @@ const Jobs = () => {
     try {
       setLoading(true);
       const { data } = await API.get('/jobs');
-      setJobs(data);
-      setFilteredJobs(data);
+      
+      let jobsData = [];
+      if (Array.isArray(data)) {
+        jobsData = data;
+      } else if (data && Array.isArray(data.jobs)) {
+        jobsData = data.jobs;
+      }
+      
+      setJobs(jobsData);
+      setFilteredJobs(jobsData);
     } catch (error) {
       console.error('Error fetching jobs:', error);
     } finally {

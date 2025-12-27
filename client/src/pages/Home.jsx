@@ -16,7 +16,15 @@ const Home = () => {
     try {
       setLoading(true);
       const { data } = await API.get('/jobs');
-      setFeaturedJobs(data.slice(0, 6)); // Get first 6 jobs
+      
+      let jobs = [];
+      if (Array.isArray(data)) {
+        jobs = data;
+      } else if (data && Array.isArray(data.jobs)) {
+        jobs = data.jobs;
+      }
+      
+      setFeaturedJobs(jobs.slice(0, 6)); // Get first 6 jobs
     } catch (error) {
       console.error('Error fetching jobs:', error);
     } finally {
@@ -36,7 +44,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white py-20">
+      <section className="bg-linear-to-br from-primary-600 via-primary-700 to-primary-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight" data-testid="hero-title">
